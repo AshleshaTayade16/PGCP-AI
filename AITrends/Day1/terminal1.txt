@@ -1,0 +1,133 @@
+talentum@talentum-virtual-machine:~/test-jupyter$ mkdir -p P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh
+total 8.0K
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 18:21 P2
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 15:38 test
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh P2
+total 4.0K
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 18:21 M1
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh M1
+ls: cannot access 'M1': No such file or directory
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh P2/M1
+total 4.0K
+drwxrwxr-x 2 talentum talentum 4.0K Jun 11 18:21 SM1
+talentum@talentum-virtual-machine:~/test-jupyter$ cd P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh
+total 0
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ pwd
+/home/talentum/test-jupyter/P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh ~/shared
+total 1.0K
+-rwxrwx--- 1 root vboxsf 36 Jun 11 15:14 -
+drwxrwx--- 1 root vboxsf  0 Jun 11 18:13 1_Whatisbigdata
+-rwxrwx--- 1 root vboxsf 36 Jun 11 14:58 test.txt
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh ~/shared/1_Whatisbigdata
+total 4.0K
+-rwxrwx--- 1 root vboxsf 836 Jun 11 18:12 Ex1_The3VsofBigData.ipynb
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ pwd
+/home/talentum/test-jupyter/P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ cp ~/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb
+cp: missing destination file operand after '/home/talentum/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb'
+Try 'cp --help' for more information.
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ cp ~/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb .
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh
+total 4.0K
+-rwxrwx--- 1 talentum talentum 836 Jun 11 18:24 Ex1_The3VsofBigData.ipynb
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ jupyter notebook
+[I 18:25:56.523 NotebookApp] The port 8888 is already in use, trying another port.
+[I 18:25:56.524 NotebookApp] Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+[I 18:25:56.524 NotebookApp] Jupyter Notebook 6.4.10 is running at:
+[I 18:25:56.524 NotebookApp] http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+[I 18:25:56.524 NotebookApp]  or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+[I 18:25:56.524 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 18:25:56.534 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/talentum/.local/share/jupyter/runtime/nbserver-17365-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+     or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+^C[I 18:27:05.859 NotebookApp] interrupted
+Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+0 active kernels
+Jupyter Notebook 6.4.10 is running at:
+http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+ or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+Shutdown this notebook server (y/[n])? y
+[C 18:27:07.561 NotebookApp] Shutdown confirmed
+[I 18:27:07.562 NotebookApp] Shutting down 0 kernels
+[I 18:27:07.563 NotebookApp] Shutting down 0 terminals
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ jupyter notebook
+[I 18:27:09.916 NotebookApp] Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+[I 18:27:09.916 NotebookApp] Jupyter Notebook 6.4.10 is running at:
+[I 18:27:09.916 NotebookApp] http://localhost:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+[I 18:27:09.916 NotebookApp]  or http://127.0.0.1:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+[I 18:27:09.916 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 18:27:09.930 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/talentum/.local/share/jupyter/runtime/nbserver-17422-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+     or http://127.0.0.1:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+[W 18:27:21.962 NotebookApp] Notebook Ex1_The3VsofBigData.ipynb is not trusted
+[I 18:27:22.247 NotebookApp] Kernel started: 937a6e79-4f58-4465-9f25-7c626436c379, name: python3
+[IPKernelApp] ERROR | No such comm target registered: jupyter.widget.control
+[IPKernelApp] WARNING | No such comm: 744170b4-84e9-4f84-bf9a-50d62ef3a9ae
+[W 18:27:52.980 NotebookApp] 404 GET /api/contents/Ex1_Solution.ipynb?type=notebook&content=0&_=1781182641494 (127.0.0.1): No such file or directory: Ex1_Solution.ipynb
+[W 18:27:52.980 NotebookApp] No such file or directory: Ex1_Solution.ipynb
+[W 18:27:52.981 NotebookApp] 404 GET /api/contents/Ex1_Solution.ipynb?type=notebook&content=0&_=1781182641494 (127.0.0.1) 2.270000ms referer=http://localhost:8888/notebooks/Ex1_The3VsofBigData.ipynb
+[I 18:27:52.989 NotebookApp] Uploading file to /Ex1_Solution.ipynb
+[I 18:29:22.241 NotebookApp] Saving file at /Ex1_Solution.ipynb
+^C[I 18:45:35.262 NotebookApp] interrupted
+Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+1 active kernel
+Jupyter Notebook 6.4.10 is running at:
+http://localhost:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+ or http://127.0.0.1:8888/?token=e0a66a21068c40062746e5f0cfeb481f86fa05f76f8c14b0
+Shutdown this notebook server (y/[n])? y
+[C 18:45:37.598 NotebookApp] Shutdown confirmed
+[I 18:45:37.599 NotebookApp] Shutting down 1 kernel
+[I 18:45:37.601 NotebookApp] Kernel shutdown: 937a6e79-4f58-4465-9f25-7c626436c379
+[I 18:45:37.675 NotebookApp] Starting buffering for 937a6e79-4f58-4465-9f25-7c626436c379:cc086a4564b343f1aa4fdde0d240959e
+[I 18:45:37.686 NotebookApp] Kernel shutdown: 937a6e79-4f58-4465-9f25-7c626436c379
+[E 18:45:37.687 NotebookApp] Uncaught exception DELETE /api/sessions/458a8793-ac10-433a-b0db-dc50f2547e27 (127.0.0.1)
+    HTTPServerRequest(protocol='http', host='localhost:8888', method='DELETE', uri='/api/sessions/458a8793-ac10-433a-b0db-dc50f2547e27', version='HTTP/1.1', remote_ip='127.0.0.1')
+    Traceback (most recent call last):
+      File "/home/talentum/.local/lib/python3.6/site-packages/tornado/web.py", line 1704, in _execute
+        result = await result
+      File "/home/talentum/.local/lib/python3.6/site-packages/tornado/gen.py", line 769, in run
+        yielded = self.gen.throw(*exc_info)  # type: ignore
+      File "/home/talentum/.local/lib/python3.6/site-packages/notebook/services/sessions/handlers.py", line 162, in delete
+        yield maybe_future(sm.delete_session(session_id))
+      File "/home/talentum/.local/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+        value = future.result()
+      File "/home/talentum/.local/lib/python3.6/site-packages/tornado/gen.py", line 775, in run
+        yielded = self.gen.send(value)
+      File "/home/talentum/.local/lib/python3.6/site-packages/notebook/services/sessions/sessionmanager.py", line 287, in delete_session
+        yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
+      File "/home/talentum/.local/lib/python3.6/site-packages/notebook/services/kernels/kernelmanager.py", line 304, in shutdown_kernel
+        self.pinned_superclass.shutdown_kernel(self, kernel_id, now=now, restart=restart)
+      File "/home/talentum/.local/lib/python3.6/site-packages/jupyter_client/utils.py", line 26, in wrapped
+        raise e
+      File "/home/talentum/.local/lib/python3.6/site-packages/jupyter_client/utils.py", line 23, in wrapped
+        return loop.run_until_complete(future)
+      File "/home/talentum/.local/lib/python3.6/site-packages/nest_asyncio.py", line 89, in run_until_complete
+        return f.result()
+      File "/usr/lib/python3.6/asyncio/tasks.py", line 180, in _step
+        result = coro.send(None)
+      File "/home/talentum/.local/lib/python3.6/site-packages/jupyter_client/multikernelmanager.py", line 274, in _async_shutdown_kernel
+        if km.ready.exception():
+    asyncio.base_futures.InvalidStateError: Exception is not set.
+[W 18:45:37.689 NotebookApp] Unhandled error
+[E 18:45:37.689 NotebookApp] {
+      "Host": "localhost:8888",
+      "Accept": "application/json, text/javascript, */*; q=0.01",
+      "Referer": "http://localhost:8888/notebooks/Ex1_Solution.ipynb",
+      "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0"
+    }
+[E 18:45:37.689 NotebookApp] 500 DELETE /api/sessions/458a8793-ac10-433a-b0db-dc50f2547e27 (127.0.0.1) 5.440000ms referer=http://localhost:8888/notebooks/Ex1_Solution.ipynb
+[I 18:45:38.025 NotebookApp] Shutting down 0 terminals
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ^C
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ 

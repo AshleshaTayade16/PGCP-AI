@@ -1,0 +1,105 @@
+SL Assignment 3
+
+Name: Ashlesha Tayade			Name: Ruchika Gaikwad
+PRN: 260240128008			PRN: 260240128036
+--------------------------------------------------------------------------
+1. Swapping Variables
+Swap two variables with or without using third variable.
+--------------------------------------------------------
+Program:
+
+Swapping.java
+
+package slassignment3;
+
+public class Swapping {
+    int num1, num2;
+
+    public Swapping(int num1,int num2){
+        this.num1=num1;
+        this.num2=num2;
+    }
+
+    public void swapWithThird(){
+        int temp=this.num1;
+        this.num1=this.num2;
+        this.num2=temp;
+    }
+}
+---------------------------------------
+TestSwap.java
+
+package slassignment3;
+
+public class TestSwap {
+    public static void main(String[] args) {
+
+        Swapping sw=new Swapping(10,20);
+        System.out.println("Before Swapping: a="+sw.num1+"  b="+sw.num2);
+        sw.swapWithThird();
+        System.out.println("After Swapping: a="+sw.num1+"  b="+sw.num2);
+
+    }
+}
+
+----------------------------------------------------------------------------------
+2. Create an appropriate data structures to store your Employee object and use 
+the java.util.package properties.
+---------------------------------------------------------
+
+Employee.java
+
+package slassignment3;
+
+public class Employee {
+
+    String name;
+    int salary;
+
+    public Employee(String name, int salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+ 
+    public void display() {
+        System.out.println(name + " earns " + salary);
+    }
+}
+---------------------------------------------------------
+TestProperties.java
+
+package slassignment3;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
+
+public class TestProperties {
+
+    public static void main(String[] args) throws IOException {
+
+        FileInputStream fis = new FileInputStream("dd.properties");
+
+        Properties properties = new Properties();
+        properties.load(fis);
+
+        List<Employee> list = new ArrayList<>();
+
+        String name1 = properties.getProperty("emp1.name");
+        int sal1 = Integer.parseInt(properties.getProperty("emp1.salary"));
+
+        String name2 = properties.getProperty("emp2.name");
+        int sal2 = Integer.parseInt(properties.getProperty("emp2.salary"));
+
+        list.add(new Employee(name1, sal1));
+        list.add(new Employee(name2, sal2));
+
+        System.out.println("Employee List:");
+        for (Employee e : list) {
+            e.display();
+        }
+    }
+}
+
+

@@ -1,0 +1,61 @@
+talentum@talentum-virtual-machine:~/test-jupyter$ mkdir -p P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh
+total 8.0K
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 18:21 P2
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 15:38 test
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh P2
+total 4.0K
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 18:21 M1
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh M1
+ls: cannot access 'M1': No such file or directory
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh P2/M1
+total 4.0K
+drwxrwxr-x 2 talentum talentum 4.0K Jun 11 18:21 SM1
+talentum@talentum-virtual-machine:~/test-jupyter$ cd P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh
+total 0
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ pwd
+/home/talentum/test-jupyter/P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh ~/shared
+total 1.0K
+-rwxrwx--- 1 root vboxsf 36 Jun 11 15:14 -
+drwxrwx--- 1 root vboxsf  0 Jun 11 18:13 1_Whatisbigdata
+-rwxrwx--- 1 root vboxsf 36 Jun 11 14:58 test.txt
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh ~/shared/1_Whatisbigdata
+total 4.0K
+-rwxrwx--- 1 root vboxsf 836 Jun 11 18:12 Ex1_The3VsofBigData.ipynb
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ pwd
+/home/talentum/test-jupyter/P2/M1/SM1
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ cp ~/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb
+cp: missing destination file operand after '/home/talentum/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb'
+Try 'cp --help' for more information.
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ cp ~/shared/1_Whatisbigdata/Ex1_The3VsofBigData.ipynb .
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ ls -lh
+total 4.0K
+-rwxrwx--- 1 talentum talentum 836 Jun 11 18:24 Ex1_The3VsofBigData.ipynb
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ jupyter notebook
+[I 18:25:56.523 NotebookApp] The port 8888 is already in use, trying another port.
+[I 18:25:56.524 NotebookApp] Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+[I 18:25:56.524 NotebookApp] Jupyter Notebook 6.4.10 is running at:
+[I 18:25:56.524 NotebookApp] http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+[I 18:25:56.524 NotebookApp]  or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+[I 18:25:56.524 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 18:25:56.534 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/talentum/.local/share/jupyter/runtime/nbserver-17365-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+     or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+^C[I 18:27:05.859 NotebookApp] interrupted
+Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1
+0 active kernels
+Jupyter Notebook 6.4.10 is running at:
+http://localhost:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+ or http://127.0.0.1:8889/?token=020cb017abccc100f413784eef57c992dba37f1fb8faf166
+Shutdown this notebook server (y/[n])? y
+[C 18:27:07.561 NotebookApp] Shutdown confirmed
+[I 18:27:07.562 NotebookApp] Shutting down 0 kernels
+[I 18:27:07.563 NotebookApp] Shutting down 0 terminals
+talentum@talentum-virtual-machine:~/test-jupyter/P2/M1/SM1$ jupyter notebook
+[I 18:27:09.916 NotebookApp] Serving notebooks from local directory: /home/talentum/test-jupyter/P2/M1/SM1

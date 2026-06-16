@@ -1,0 +1,78 @@
+/* Reset basic styles and center everything */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Card Container for the Form */
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+/* Form Headings / Labels alignment */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333333;
+    font-size: 14px;
+}
+
+/* Styling the Text and Number Input Fields */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus state for input fields */
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #4abc96;
+    outline: none;
+    box-shadow: 0 0 8px rgba(74, 188, 150, 0.2);
+}
+
+/* Styling the Calculate Button */
+input[type="submit"], 
+button {
+    width: 100%;
+    background-color: #4abc96;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Hover and Active states for the button */
+input[type="submit"]:hover,
+button:hover {
+    background-color: #3aa885;
+}
+
+input[type="submit"]:active,
+button:active {
+    transform: scale(0.98);
+}

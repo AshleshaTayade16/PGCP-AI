@@ -1,0 +1,9 @@
+# Ignore all CSV files (optional but recommended for data science)
+*.csv
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore folder for virtual environments
+venv/
+.env

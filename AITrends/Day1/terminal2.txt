@@ -1,0 +1,30 @@
+talentum@talentum-virtual-machine:~/test-jupyter$ ls -lh
+total 4.0K
+drwxrwxr-x 3 talentum talentum 4.0K Jun 11 15:32 test
+talentum@talentum-virtual-machine:~/test-jupyter$ cd test
+talentum@talentum-virtual-machine:~/test-jupyter/test$ ls -lh
+total 388K
+-rwxrwxr-x 1 talentum talentum 4.4K May 12  2022 books.xml
+-rwxrwxr-x 1 talentum talentum  597 May 12  2022 episodes.avro
+-rwxrwxr-x 1 talentum talentum 345K May 19  2022 Invoice-set1.json
+-rwxrwxr-x 1 talentum talentum   73 May 12  2022 people.json
+-rw-rw-r-- 1 talentum talentum  17K Jun 11 15:32 SparkStart_latest.ipynb
+-rwxrwxr-x 1 talentum talentum  615 May 12  2022 users.parquet
+talentum@talentum-virtual-machine:~/test-jupyter/test$ cat users.parquet
+0red88,AlyssaBen,
+@	\Hexample.avro.User
+                                           %name%
+                                                    %favorite_color%5favorite_numbers%array<
+                                                                                                               nameDH&P
+                                                                                                                                   favorite_color<@&P& %(favorite_numbersarray
+ZZ&  
+               avro.schema {"type":"record","name":"User","namespace":"example.avro","fields":[{"name":"name","type":"string"},{"name":"favorite_color","type":["string","null"]},{"name":"favorite_numbers","type":{"type":"array","items":"int"}}]}parquet-mr version 1.4.3 PAR1talentum@talentum-virtual-machine:~/test-jupyter/test$ jps
+3794 SparkSubmit
+24744 Jps
+talentum@talentum-virtual-machine:~/test-jupyter/test$ jps
+3794 SparkSubmit
+26303 Jps
+talentum@talentum-virtual-machine:~/test-jupyter/test$ jps
+30009 Jps
+talentum@talentum-virtual-machine:~/test-jupyter/test$ 
+

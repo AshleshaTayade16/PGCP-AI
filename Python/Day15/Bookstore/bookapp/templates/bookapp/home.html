@@ -1,0 +1,19 @@
+{% extends 'bookapp/base.html' %}
+{% block body %}
+    {% for book in books %}
+        <article class ="media content-section">
+            <div class="media-body">
+                <div class ="article-metadata">
+                    <a class ="mr-2" href = "{% url 'bookapp-bookdetails' book.id %}">{{book.title}}</a>
+                </div>
+                <div>
+                    <small class ="text-mutued"> By {{book.author}}</small>
+                </div>
+                 <div>
+                    <small class ="text-mutued"> By {{book.price}}</small>
+                </div>
+            </div>
+
+        </article>
+    {% endfor %}
+{% endblock %}
