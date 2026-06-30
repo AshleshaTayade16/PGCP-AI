@@ -1,0 +1,112 @@
+Resetting offsets
+------------------------
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-consumer-groups command
+In third CLI (consumer1 cli) give kafka-consumer-groups.sh command
+>>>>$kafka-consumer-groups.sh
+
+So what is this command?
+
+This command is to be able to list all the consumer groups, describe a consumer 
+group, delete consumer group info, or reset consumer group offsets.
+
+So what are the arguments?
+It takes a --bootstrap-server, which is required, And then, it takes a bunch of 
+options, so we'll have a go and see what we can do with it.
+
+3) List the groups
+Give following command in a new CLI (consumer cli 1)
+>>>>kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+		--group my-first-application
+A question that comes up really often is how do I make my consumer group right 
+here, my-first-application, how do I make it replay data?
+Because, right now, if I restart it, it's just going to read from wherever it has
+the offsets being checked outs.
+Stop your consumers (in consumer cli 1).
+
+4) See the documentation of kafka-consumer-groups
+In a new CLI (conumer group cli) see the documentation of kafka-consumer-groups
+by give following command
+>>>>kafka-consumer-groups.sh
+There is an option --reset-offsets, 
+Resets the offsets means for a defined consumer group you're going to say
+where it should start reading from again.
+You can choose one of the following options, -to-datetime, --by-period, 
+--to-earliest, --to-latest, -shift-by, and --from-file.
+
+For this example, I'll just play with --to-earliest, which means start at the 
+beginning again, but you can play with all these options as an exercise and see how 
+you go.
+
+Give following command in a consumer group cli
+>>>>kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--reset-offsets --to-earliest
+We get an error. It says no action will be performed as the --execute option is 
+missing. This is just to do a dry run. Let's do it. We'll do --execute.
+>>>>kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--reset-offsets --to-earliest --execute
+Press Enter. This one time we get another error, so let's have a look. 
+And the error being, one of the resets scope should be defined:
+-all-topics, or --topic, and that's right. We need to specify the topic
+of which we want to reset the offsets.
+Let's go ahead and say, now I want to reset the offsets for the topic, first_topic,
+and that should be alright now.
+SO now give following command
+>>>>kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--reset-offsets --to-earliest --execute --topic first_topic
+It says for my first_topic, PARTITION two, one, and zero, the NEW-OFFSET is zero.
+
+5) What happens now if we restart our consumer?
+What happens now if we restart our consumer, in consumer cli 1.
+>>>>kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+		--group my-first-application
+Well, we'll should see all the data all over again.
+
+Now, in consumer groups cli run a kafka-consumer-groups, with a --describe 
+option.
+kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--describe
+Now, we see that the LOG-END-OFFSETs and the CURRENT-OFFSET is the same and the 
+LAG is zero, so what we expected.
+
+6)Shifting the offset
+First stop the consumer in consumer cli 1
+>>>>^C (Ctrl + C)
+Now, we can just play with another command. We look at the other options. 
+Let's look at the documentation of kafka-consumer-groups command in consumer group
+cli.
+>>>>kafka-consumer-groups
+There is an option called --shift-by. Let's have a look at the documentation.
+We can do --shift-by and the number-of-offsets. Say we want to shift by two
+and have a look what that does. 
+Give following command
+>>>>kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--reset-offsets --shift-by 2 --execute --topic first_topic
+"we are NEW-OFFSETs "of 10, 12, and 13". -shift-by 2 means shifting forward.
+We want to shift backwards, obviously, so we'll do --shift-by -2, and now we get 
+NEW-OFFSETs 11, eight, and nine. Using this, you can shift forward or backwards 
+for your kafka-consumer-groups.
+Give following command
+>>>>kafka-consumer-groups --bootstrap-server localhos:9092 --group my-first-application
+	--reset-offsets --shift-by -2 --execute --topic first_topic	
+If we start our consumer on the consumer cli 1, we should be able to see six messages,
+Give following command in consumer cli 1
+>>>>kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+		--group my-first-application
+And here we get, six messages. It did shift by two offsets on each partition. 
+That's about it.		
+	
+
+Conclusion
+------------
+So we have seen the working of kafka consumer groups

@@ -1,0 +1,6 @@
+We are going to go ahead and use a Kafka CLI, or command line interface, 
+to start creating topics, producing data to Kafka, and retrieving data from Kafka.
+
+As you'll see, the CLI is really important in your job as a programmer to learn
+and to know really, really well.
+

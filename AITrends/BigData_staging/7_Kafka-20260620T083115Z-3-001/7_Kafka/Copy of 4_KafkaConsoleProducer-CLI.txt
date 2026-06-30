@@ -1,0 +1,137 @@
+Console Producer 
+----------------
+Okay, so now that we have created topics, we actually need to send data to them, 
+So we are going to learn the kafka-console-producer command.
+
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-console-producer command
+In third CLI give kafka-console-producer.sh command
+>>>>$kafka-console-producer.sh
+
+So the documentation gives us a lot of options. And you don't need to know about 
+everything to be able to read them.
+
+But as we can see, the "broker-list" option is "required". And this is the one we'll 
+use. So this is where we'll specify kafka brokers.
+
+Now in the bottom you can see that there is another one that is required. Which is 
+"topic". Obviously when you wanna produce the topic you need to give a topic name to 
+produce message to.
+
+3) Produce messages
+So we are going to launch our first kafka-console-producer.
+>>>>$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic
+
+If everything goes well you see a little carrot on the left hand side, okay?
+So what that means, we're ready to produce.
+So on this prompt produce following messages
+>Hello Amit
+>awesome course!
+>learning kafka
+>just another message :)
+>^C
+$
+So the last command (^C i.e Ctrl + C) bring back to bash shell. It just stopped the 
+console producer.
+
+So we have produced four messages.
+
+4) Adding properties to the producer
+So now that we're ready we can also have properties. So the idea it that right now 
+our console producer uses a bunch of default properties.
+
+But remember I mentioned about, for example, the acks property. Well we can set it 
+right here. We'll do --producer-property acks=all. And you can setup anything you 
+want here.
+
+So far we can add additional properties to our producer using the --producer-property 
+option.
+
+So give following command
+>>>>$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic 
+    --producer-property acks=all
+And again, we get the little carrot starting, start entering the messages as shown
+>some message that is acked
+>just for fun
+>fun learning!
+>^C
+
+5) What about sending messages to a topic that does not exist
+
+Now there is something you should know about the kafka-console-producer.
+
+Now just give following command
+>>>>$$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic new_topic
+So we will again get kafka console, and enter following message
+>hey this topic does not exist!
+[2019-10-06 18:34:09,389] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 3 : {new_topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+[2019-10-06 18:34:09,471] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 4 : {new_topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+>Another message
+>^C
+
+So what happened here? And this is one of the most common issues in kafka.
+
+So if you go to the second tab, you can see that basically this new topic 
+was created, okay? And somehow producing to a topic that did not exist before 
+created it.
+
+Now because it gets created but there was no leader election that happened yet,
+we get this exception LEADER_NOT_AVAILABLE.
+
+But the producers are able to recover from errors. And so it just tried and waited 
+until the leader was available, and then it produced a message. So this is why you 
+get a warning. It's not an error. It's a warning.
+
+
+5) List the topics 
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+Now we see that we have first_topic and new_topic that have been created.
+
+6) Describe new_topic
+So what is this new_topic comprised of?
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic new_topic --describe
+
+We see that this new_topic has one partition and one ReplicationFactor. So these 
+are the defaults when you produce to a topic that does not exist.
+
+And usually this is not what you want. You want a higher ReplicationFactor and you 
+want a higher PartitionCount.
+
+So the idea is that when you produced your topic that doesn't exist, you'll see that 
+error and you know right away that this topic was not created before.
+
+So recommendation to you is to always create a topic before hand, before producing 
+to it, otherwise it'll get created with some defaults that are usually not good.
+
+7) How to change kafka default partitions
+i)Now if you wanted to change the defaults you'll edit server.properties file.
+edit config/server.properties file, change num.partitions from 1 to 3.
+Save the changes
+ii) Stop kafka broker using Control + C and then once it shutdown restart it
+iii) create a topic new_topic_2
+>>>>$$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic new_topic_2
+Produce some messages (You will again get the warning)
+iv) Confirm topic creation
+$kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+v) Describe new_topic_2
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic new_topic_2 --describe
+
+And as you can see now, it has three partitions because we changed a default configuration.
+So, overall, you can change that and get a default packaging of three.
+
+
+
+Conclusion
+------------
+But, overall, I recommend you actually manually create the topics every time
+before producing to them. That is best practice.

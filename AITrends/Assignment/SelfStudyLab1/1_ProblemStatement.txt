@@ -1,0 +1,41 @@
+SelfStudy Tasks
+------------------
+
+1. Task 1 - 
+-----------
+Dataset - NYSE_daily_prices_A.csv
+Dataset represents daily prices changes on NYSE (Newyork
+Stock Exchange)
+
+One of the sample record is as shown below
+NYSE,AEA,2010-02-08,4.42,4.42,4.21,4.24,205500,4.24
+
+In every record 
+1) first data point represents Stock Exchange (It will be NYSE only)
+2) second data point represents listed company name (AEA)
+3) third data point represents price recorded date (2010-02-08)
+4) fourth data point represents opening price of the share (4.42)
+5) fifth data point represents High price of the share (4.42)
+6) Sixth data point represents Low price of the share (4.21)
+7) Seventh data point represents Closing price of the share (4.24)
+8) Eighth data point represents volumes of shares transacted (205500)
+9) Nineth data point represents Adjusted closing price of the share(4.24)
+
+You are suppose to Compute and return the money flow , which is 
+computed with the following formulas:
+
+typical price = (high + low + close) / 3 
+money flow = typical price x volume
+
+Output should be displayed in following format
+Exchange Name, Listed company Name, Recorded date, Computed money flow
+
+i) Create a Spark RDD application by using Jupyter Notebook
+ii) If application is working correctly then run the application as 
+a stand alone spark python application.
+
+2. Task 2 - 
+-----------
+Prepare a document explaining "why lazy evaluation is beneficial in 
+distributed systems?"
+

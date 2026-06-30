@@ -1,0 +1,102 @@
+Kafka consumer groups cli
+------------------------
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-consumer-groups command
+In third CLI (consumer1 cli) give kafka-consumer-groups.sh command
+>>>>$kafka-consumer-groups.sh
+
+So what is this command?
+
+This command is to be able to list all the consumer groups, describe a consumer 
+group, delete consumer group info, or reset consumer group offsets.
+
+So what are the arguments?
+It takes a --bootstrap-server, which is required, And then, it takes a bunch of 
+options, so we'll have a go and see what we can do with it.
+
+3) List the groups
+Give following command
+>>>>kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+And as we can see, we have four consumer groups. 
+So "Why, that's a bit odd. "Didn't we have two consumer groups only?
+"My first application and my second application"
+Well, when you use the console consumer and you don't specify the group, 
+it just generates a random console consumer for you.
+
+So, with a random number, so this is why we have four consumer groups so far.
+
+Note:- As of kafka > 2.1 the random console consumers will not appear any more
+
+4) Describe the group
+>>>>kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group 
+	my-second-application
+Now, it says consumer group my second application has no active members.
+Yes, that's right, because we have stopped every console consumer.
+
+So this group/application is reading from first_topic. And from three partitions, 
+partition zero, two, and one. And per partition basis showing current offset
+(for example11, 13, and 10). The log is also at the end, (11, 13, and 10).
+And the lag is zero. So lag zero means that, yes, indeed, the console
+consumer is reading. It has read all the data.
+Give following command
+>>>>kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group 
+	my-first-application
+
+Now what we see, is that the current offset is 9, 11, and 9.
+Well the log end offset is 11, 13, and 10. And so we have a lag of two, two, and one.
+
+So that means that my first application, currently is lagging. It needs to catch up 
+on a few messages.
+
+So, that's obvious, we'll verify this behavior right now.
+Give following commad
+>>>>kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+		--group my-first-application
+And as you can see, we have five messages that were lagging.
+So two, plus two, plus one's our equal five.
+
+So these five messages have been lagging and we just caught up.
+
+describe group again 
+>>>>kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group 
+	my-first-application
+Then we see that the current offset is equal to the log end offset.
+And now the lag is zero.
+
+So that's super, super important. 
+
+5) Confirming which consumers from which host are consuming the messages
+Now let's just start a consumer in the other window (consumer cli), just to see what 
+happens. We'll start a consumer with my first application. 
+>>>>kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic
+		--group my-first-application
+
+In second terminal window (console consumer group) describe the group/application
+my-first-application		
+>>>>kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group 
+	my-first-application
+
+Is that, now, there are active consumers. So we don't have that error message any 
+more. And so, we get that consumer reading on partition zero has whatever consumer ID 
+and is coming from whichever host. And then, et cetera, et cetera, for partition one 
+and partition two.
+
+So, basically, what that means is that when you start consuming you can run this 
+command and see which applications are consuming, or which machine is consuming
+on to your topic.	
+
+
+Conclusion
+------------
+So we have seen the working of kafka consumer groups

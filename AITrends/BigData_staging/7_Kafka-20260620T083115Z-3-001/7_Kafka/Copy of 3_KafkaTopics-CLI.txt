@@ -1,0 +1,143 @@
+Kafka Topics CLI 
+----------------
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-topics command
+The first command we are going to learn about today is kafka-topics.
+because as we have seen, when you start in kafka, you start by topics.
+
+In third CLI give kafka-topics.sh command
+>>>>$kafka-topics.sh
+
+you get the entire documentation of this function, and so it says 
+"Create, delete, or describe, or change a topic", and you get all these options,
+you get alter, config, create, delete, describe, etc...
+
+So there is a lot of things that is happening.
+And all of these options can be overwhelming at first, so we'll go ahead, 
+and going to show you the most important things to do to get started with.
+
+3) Create a topic
+So, the first thing you want to do is kafka-topics, and we need to reference zookeeper,
+and the reason we need to reference zookeeper is that, to create a topic, we have to 
+point to zookeeper.
+On third CLI give following command
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --create
+
+Now, if you press enter, this will not work. You get staggered documentation,
+and when you get a documentation, that means something was wrong, and so, as you can
+see, it says,
+"Missing required argument "[Partitions]"."
+
+And so this is the first extremely important thing, is that until the command is 
+succeeding, we're going to get some errors.
+
+Yes indeed, when we create a topic, we have to say how many partitions we want.
+we are going to want three partitions
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --create 
+    --partitions 3
+We see the documentation again, so something went wrong. We just scroll back up, 
+and it says,
+"Missing required argument "[replication-factor]"."
+
+So that's right, as well. When we create a topic, as I said, we have to specify 
+the number of partitions, but also the number of replication-factor.
+So set the replication factor to 2.
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --create 
+    --partitions 3 --replication-factor 2
+We get an error, it says, 
+"Error while executing topic command, the Replication 
+factor, two, is larger than the number of available brokers, one."
+
+So here is something that is in kafka, in kafka, you cannot create the topic with a 
+replication factor greater than the number of brokers you have, and because 
+we have started only one broker, in our cluster, we cannot have a replication factor 
+of two.
+
+Now later, we'll see how to start a cluster, and then we can create topics
+with a higher replication factor, but for now, we have to use a replication factor 
+of one to create that topic.
+
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --create 
+    --partitions 3 --replication-factor 1
+Now the topic is created.
+
+Note:- 
+------
+As of kafka 2.2 instead of --zookeeper 127.0.0.1:2181 you can use 
+--bootstrap-server localhost:9092 in your kafka-topics command
+Note that while --zookeeper 127.0.0.1:2181 option is now deprecated it is still
+used to support wide variety of kafka versions
+
+4) List the topics
+SO how do we know that our topic has been created?
+Well, give the following command to list the kafka topics
+
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+
+we just get one thing back, which is first_topic, so it's very handy.
+
+5) Describe the topic 
+Okay, so now if we want to learn more about the topic, we want to know how many 
+partitions there is, we want to know where they're assigned, etc...
+give the following command to list the kafka topics
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic first_topic --describe
+
+This option to describe a topic is going to give us a lot of good information.
+
+So let's have a look. Now, this option gives us the whole table back, and we can see that the topic name 
+is first_topic. Now there are three partitions, one replication factor, and it has 
+no additional configurations.
+
+Now, under each line is going to be a description of each partition. So the topic is 
+first_topic, the partition is zero, and leader zero, means that broker ID zero,
+is the leader for this partition. 
+
+So how do we know it's broker ID zero? Well, if we go in the kafka log, it says 
+broker zero, broker zero, broker zero, and we get this from the configuration.
+So that means that out broker ID zero is the leader.
+
+Replicas is the list of all the replicas, so we have a replication factor of one,
+so there is going to be only one thing here, and it's zero, so again broker ID zero,
+and ISR is also going to be broker ID zero.
+
+So when we create a topic, with a high replication factor and so on, 
+we'll get different results here.
+
+6) Exercise
+------------
+Create a new topic, having name as second_topic, having six partitions, and then 
+the replication factor, which is going to be one.
+
+List all the topics to confirm the creation of the above topic.
+
+7) Delete a topic
+Delete a second_topic using following command
+
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic second_topic --delete
+
+This is going to mark a topic for deletion, so it doesn't actually delete the topic 
+right away, it says, "topic second_topic is marked for deletion," and it says this 
+will have no impact, so it won't get deleted if the setting "delete.topic.enable"
+was not set to true.
+
+Now, do a list,
+>>>>$kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+we can see that the topic has disappeared, it has been deleted, so it actually is 
+that this "delete.topic.enable" is set to true by default.
+
+Conclusion
+------------
+Okay, so here we go, we have created topics, list topics, describe topics, and 
+deleted topics, which is most of the things you'll do with this command 
+kafka-topics.
+We'll see configuration later on in this course,

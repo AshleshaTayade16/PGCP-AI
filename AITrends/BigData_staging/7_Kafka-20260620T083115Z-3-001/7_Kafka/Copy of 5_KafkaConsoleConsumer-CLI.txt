@@ -1,0 +1,89 @@
+Kafka console consumer
+----------------------
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-console-consumer command
+In third CLI give kafka-console-consumer.sh command
+>>>>$kafka-console-consumer.sh
+
+we can see that there's a "bootstrap-server" setting and it's required.
+So "broker-list" in kafka-console-producer, "bootstrap-server" here, it's a bit 
+confusing but it's the same, it's Kafka.
+Now, we can scroll down and we can see that there is also our "topic" that we have to 
+specify which is the topic we'll consume from.
+
+3) Consume/read the messages
+Open a new terminal window (say console consumer window)
+so let's give it a try.
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic
+
+Nothing happens. Now, isn't that odd? We have written maybe six or seven messages
+to our topic and here we see zero.
+Now, that's a bit odd right?
+Well the answer is that kafka-console-consumer just like this, does not read all 
+the topic messages. It only reads from that point when you launch it and 
+will only intercept the new messages. So, that's a bit funky.
+
+3) Confirm the behavior of kafka-console-consumer
+Open a new terminal window (say console producer window) side by side to console 
+consumer terminal window
+Start producing messages in first_topic using kafka-console-producer
+>>>>$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic
+>hi how are you
+Observe that message appears on console consumer terminal.
+
+>This is a new message
+Observe that this message also appears on console consumer terminal.
+
+So, that makes sense right?
+When we started console consumer, think of like our Kafka topic has like millions 
+of messages. We don't wanna just read the millions of messages by default.
+
+We just wanna read the new ones that arrive because it's streaming, it's realtime.
+
+4) But how do we do to read all the messages in the topic?
+But how do we do to read all the messages in the topic? 
+Because sometimes we need to. 
+So, we launch the exact same command. But this time, we will do from beginning.
+And by doing from beginning, we are going to ask console consumer to go to the 
+beginning of topic and tell what the other is.
+^C(Ctrl + C) the console consumer terminal, and again give following command
+>>>>$kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--from-beginning
+Now we see all the messages that we have written to the topic being displayed in 
+our consumer.
+
+Again, the consumer is still running. So, it's still reading the new messages.
+Give following messages in console producer terminal
+
+>here is another message.
+>By the way, really awesome course.
+>I'm super fun.
+
+so all these messages arriving.	
+
+Note:-
+-------
+As you can see the order of the messages in this consumer is not "total",
+the order is per partition. Remember first_topic was created with 3 partitions.
+If you try with a topic with 1 partition, you will see total ordering
+
+Exercise:-
+------------
+Verify above note by creating a topic having name as test_topic.
+
+
+Conclusion
+------------
+So the Kafka console consumer, when you do from beginning will read all the 
+messages and the one that have yet to arrive.
+So, that's about it for the basics of the console consumer.

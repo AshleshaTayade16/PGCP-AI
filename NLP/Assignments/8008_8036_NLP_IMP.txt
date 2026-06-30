@@ -1,0 +1,112 @@
+NLP-IMP Assignment
+Name: Ashlesha Tayade
+PRN: 260240128008
+Name: Ruchika Gaikwad
+PRN: 260240128036
+
+-------------------------------------------------------------------------------------------
+## Question 01
+--------------------------
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+docs = ["text preprocessing is fun", "tf-idf is useful"]
+vectorizer = TfidfVectorizer(stop_words='english', lowercase=True, token_pattern=r'\b\w+\b')
+tfidf_matrix = vectorizer.fit_transform(docs)
+
+## Question 02
+--------------------------
+from sklearn.metrics.pairwise import cosine_similarity
+
+query_embedding = ...  # Embedding of the query
+doc_embeddings = [...]  # List of document embeddings
+similarities = cosine_similarity([query_embedding], doc_embeddings)
+most_similar_idx = similarities.argmax()
+
+
+## Question 03
+--------------------------
+from PyPDF2 import PdfReader
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
+
+# Step 1: Extract text from PDF
+def extract_text_from_pdf(pdf_path):
+    reader = PdfReader(pdf_path)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+    return text
+
+# Step 2: Chunk text into sentences or paragraphs
+def chunk_text(text, chunk_size=200):
+    chunks = []
+    for i in range(0, len(text), chunk_size):
+        chunk = text[i:i+chunk_size].strip()
+        if chunk:
+            chunks.append(chunk)
+    return chunks
+
+# Step 3: Embed chunks using SentenceTransformer
+def embed_chunks(chunks, model_name="all-MiniLM-L6-v2"):
+    model = SentenceTransformer(model_name)
+    embeddings = model.encode(chunks, convert_to_numpy=True)
+    return embeddings
+
+# Step 4: Build FAISS index for retrieval
+def build_faiss_index(embeddings):
+    dimension = embeddings.shape[1]
+    index = faiss.IndexFlatL2(dimension)
+    index.add(embeddings)
+    return index
+
+# Step 5: Retrieve relevant chunks for a query
+def retrieve_relevant_chunks(query, index, chunks, k=3):
+    model = SentenceTransformer("all-MiniLM-L6-v2")
+    query_embedding = model.encode([query], convert_to_numpy=True)
+    distances, indices = index.search(query_embedding, k)
+    return [chunks[i] for i in indices[0]]
+
+# Step 6: Generate answer (simplified)
+def generate_answer(query, relevant_chunks):
+    # In a real RAG, you'd pass chunks + query to an LLM
+    return f"Answer based on: {', '.join(relevant_chunks[:2])}"
+
+# --- Example Usage ---
+pdf_path = "example.pdf"  # Replace with your PDF path
+text = extract_text_from_pdf(pdf_path)
+chunks = chunk_text(text)
+embeddings = embed_chunks(chunks)
+index = build_faiss_index(embeddings)
+
+query = "What is the main topic of the document?"
+relevant_chunks = retrieve_relevant_chunks(query, index, chunks)
+answer = generate_answer(query, relevant_chunks)
+print(answer)
+
+
+## Question 04
+--------------------------
+Convolution: floor((Input - Kernel + 2*Padding)/Stride) + 1
+Pooling: floor((Conv_Output - Pool_Size)/Pool_Stride) + 1
+Example: Input=32, Kernel=3, Stride=1, Padding=1 → Conv Output=32. Max Pooling (Size=2, Stride=2) → Final Output=16.
+
+
+## Question 05
+--------------------------
+YOLO (You Only Look Once):
+A one-stage detector that processes the entire image in a single forward pass, dividing it into a grid and predicting bounding boxes and class probabilities directly. Pros: Extremely fast (real-time, >30 FPS), ideal for real-time applications like surveillance, drones, or autonomous vehicles. Cons: Lower accuracy for small objects and struggles with precise localization.
+
+
+Faster R-CNN:
+A two-stage detector that first generates region proposals (using a Region Proposal Network) and then classifies them. Pros: High accuracy, especially for complex scenes (e.g., medical imaging, industrial inspection). Cons: Slower (~5–10 FPS) due to sequential processing.
+
+
+Mask R-CNN:
+Extends Faster R-CNN by adding a pixel-level segmentation branch to predict object masks. Pros: Best for instance segmentation (e.g., autonomous driving, robotics). Cons: Computationally heavy (~2–5 FPS), requires more resources.
+
+Use Case Summary:
+
+Speed: YOLO
+Accuracy: Faster R-CNN
+Segmentation: Mask R-CNN

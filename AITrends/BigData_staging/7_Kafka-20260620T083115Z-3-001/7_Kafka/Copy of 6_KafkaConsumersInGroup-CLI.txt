@@ -1,0 +1,170 @@
+Kafka consumers in group
+------------------------
+Remember in our theory session we have seen that our console consumer or our 
+consumers in general have to be part of a group.
+And our group is basically ID is the name of our application.
+So how do we set this?
+
+1) Start zookeeper and kafka
+So first, you want to make sure that zookeeper is started and kafka is started,
+and you already have that from the previous section.
+In first CLI start zookeeper
+>>>>$zookeeper-server-start.sh config/zookeeper.properties 
+So zookeeper is running on port 2181
+
+In second CLI start kafka
+>>>>$kafka-server-start.sh config/server.properties 
+So kafka is running on port 9092
+
+2) Get the documentation of kafka-console-consumer command
+In third CLI (consumer1 cli) give kafka-console-consumer.sh command
+>>>>$kafka-console-consumer.sh
+
+What we can see in the documentation, that if you go all the way up there is a 
+--group option. And then we can specify the group we want.
+
+3) Creating console consumer belonging to the group
+In third CLI (consumer1 cli) give following command
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-first-application
+So as we expect, this is a new console consumer and it's part of the 
+my-first-application group and because we don't read from beginning, 
+well we don't see any messages.
+
+But if I go on the new cli and produce data twits, Obviously, the message 
+will appear in console cli.
+In a new CLI (producer cli) start a kafka producer producing messages towards
+first_topic
+>>>>$kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic first_topic
+>hello new consumer
+
+confirm that mesaage get consumed in consumer cli
+
+4) Start multiple consumers from the same group
+In a new CLI (consumer2 cli) start a second console consumer pointing to 
+first_topic and belonging to group my-first-application
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-first-application
+Do not launch it right now. What we want you to notice is that, if we produce 
+messages through producer cli all the messages will be consumed by consumer 1 only
+
+SO on producer cli enter following messages
+>message1
+>message2
+>message3
+
+and confirm that consume 1 consume all of them
+
+Now, launch the second console consumer. So now we have two console consumers. 
+Now in the producer console produce following messages
+>one message
+>another message
+>yet another message
+
+What we can see is that one message and another message went to the consumer 2, 
+while yet another message went to the consumer 1.
+
+So, that's because they're a part of the same group and we have three partitions
+and so far we have two console consumers.
+So using this, we can see that the messages, because they share the same group ID
+are split between the consumer 1 and consumer 2.
+
+We can replicate this one more time and start another consumer (consumer 3 cli).
+In a new cli give following command
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-first-application
+Now in the producer console produce following messages
+>yellow
+>blue
+>green
+
+we can see that the messages have been split between the three consumers.
+The first one got red, the second one got yellow, and the third one got blue.
+
+And so that's because we have three partitions and three consumers that means that 
+each consumer reads from a different partition.
+
+And so that in action the power of consumer groups. 
+Hatch and nothing and automatically the consumer groups rebalanced and shared 
+the load.
+
+5) What if one of the consumer from the group crashed?
+Now, what happens if I stop for example, my consumer 1 ?
+Produce following messages
+>orange
+>purple
+>black
+Well as we can see, orange and purple went to the consumer 2 and black went to 
+the consumer 3.
+So, as consumer 1 went down, the new partitions have been reassigned 
+between the two remaining consumers to basically end hole the loss of a consumer.
+
+So this is really, really interesting.
+
+Now shut down the consumer 2 also, so now we only have one consumer left.
+and give following messages from producer cli
+>hello
+>how
+>are
+>you
+
+And we can see that this consumer gets all the data. So this is right now a live 
+demonstration of how consumer groups work.
+
+Try it out, it'll make sense. And go back to the theory lecture if it doesn't make 
+any sense.
+
+6)Consumer offset
+Now make sure that none of the consumers is running
+Open a new cli(consumer 1 cli) and give following command
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-second-application --from-beginning
+(So we read the first topic and we used to do the second application.
+So with new group ID we'll read from beginning.)
+
+Now What we see is what we expect. We see all the messages we've written so far 
+to our topic.
+
+Now, stop the consumer and rerun it with the exact same command.
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-second-application --from-beginning
+
+And now, we don't see all the messages. Even though we said, "from-beginning".
+So, why is that?
+
+Well that's because the group was specified, my-second-application.
+And as I mentioned before, the offsets have been committed in Kafka.
+So it says, "okay, my-second-application has read all the messages until 
+message number 29(as an exmple)".
+
+So now you only will gonna read the new messages from message 29. So, the 
+from-beginning option right here is not taken into account anymore.
+
+Now shut down the consumer 1 and again give following command 
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-second-application	
+In producer console produce following message
+>hello again
+
+So, we can see that the application is reading properly.
+
+Now what happens if we stop the consumer application? and were gonna 
+producing following messages through producer cli
+>keep on producing 
+>some new messages 
+>because let's try
+
+And now we relaunch our console consumer using the same group second-application,
+and press Enter.
+>>>>kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic 
+	--group my-second-application
+And now as you can see, the only new messages we see is the one we've just 
+produced, because our group has been reading all the way up until 
+"from the other side".
+
+So the three new messages that we just created, are the ones we see.
+So once you get that, you understand the consumers perfectly.
+
+Conclusion
+------------
+So we have seen the working of kafka consumer, consumer group and consumer offset

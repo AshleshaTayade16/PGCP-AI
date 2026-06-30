@@ -1,0 +1,44 @@
+DNN_IMP Assignment
+Name: Ashlesha Tayade
+PRN: 260240128008
+Name: Ruchika Gaikwad
+PRN: 260240128036
+---------------------------------------------------------------------------------
+## Question 01
+----------------------------
+
+1. Output Size Calculation
+For a convolution layer:
+Formula: Output Size = floor((Input Size - Kernel Size + 2*Padding) / Stride) + 1
+
+
+## Question 02
+----------------------------
+* ReLU (Rectified Linear Unit): Outputs max(0, x), introducing non-linearity while avoiding the vanishing gradient problem. Ideal for hidden layers in deep networks.
+* Sigmoid: Maps input to a range of (0, 1), making it suitable for binary classification outputs (e.g., yes/no).
+* Softmax: Converts a vector of raw scores into probabilities that sum to 1. Used in the output layer for multi-class classification (e.g., identifying one of N categories).
+
+
+
+## Question 03
+---------------------------
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+model = Sequential([
+    Dense(64, activation='relu', input_shape=(input_dim,)),
+    Dense(1, activation='sigmoid')
+])
+model.compile(optimizer='adam', loss='binary_crossentropy')
+
+
+## Question 04
+-----------------------------
+Dropout randomly deactivates a fraction of neurons (e.g., 20–50%) during training, forcing the network to distribute learning across all neurons. This prevents overfitting by reducing co-adaptation, where neurons rely too heavily on specific others. Dropout is typically placed after dense or convolutional layers but before the activation function.
+
+
+## Question 05
+----------------------------
+CNNs excel at hierarchical local feature extraction (edges → textures → objects) using convolutional kernels. They are computationally efficient and work well for standard tasks like classification.
+Transformers use self-attention to capture long-range dependencies, making them superior for tasks requiring global context (e.g., image segmentation). However, they need more data and compute, making CNNs more practical for most image tasks.
+
